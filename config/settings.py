@@ -156,6 +156,13 @@ class Settings(BaseSettings):
         default=1.0, validation_alias="MESSAGING_RATE_WINDOW"
     )
 
+    # ==================== Custom Provider Config ====================
+    custom_api_key: str = Field(default="", validation_alias="CUSTOM_API_KEY")
+    custom_base_url: str = Field(default="", validation_alias="CUSTOM_BASE_URL")
+    custom_transport: str = Field(
+        default="openai_chat", validation_alias="CUSTOM_TRANSPORT"
+    )
+
     # ==================== NVIDIA NIM Config ====================
     nvidia_nim_api_key: str = ""
 
@@ -204,6 +211,7 @@ class Settings(BaseSettings):
     gemini_proxy: str = Field(default="", validation_alias="GEMINI_PROXY")
     groq_proxy: str = Field(default="", validation_alias="GROQ_PROXY")
     cerebras_proxy: str = Field(default="", validation_alias="CEREBRAS_PROXY")
+    custom_proxy: str = Field(default="", validation_alias="CUSTOM_PROXY")
 
     # ==================== Provider Rate Limiting ====================
     provider_rate_limit: int = Field(default=40, validation_alias="PROVIDER_RATE_LIMIT")
@@ -386,6 +394,15 @@ class Settings(BaseSettings):
         if v not in ("cpu", "cuda", "nvidia_nim"):
             raise ValueError(
                 f"whisper_device must be 'cpu', 'cuda', or 'nvidia_nim', got {v!r}"
+            )
+        return v
+
+    @field_validator("custom_transport")
+    @classmethod
+    def validate_custom_transport(cls, v: str) -> str:
+        if v not in ("openai_chat", "anthropic_messages"):
+            raise ValueError(
+                f"custom_transport must be 'openai_chat' or 'anthropic_messages', got {v!r}"
             )
         return v
 

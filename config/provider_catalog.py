@@ -36,6 +36,7 @@ ZAI_DEFAULT_BASE = "https://api.z.ai/api/anthropic/v1"
 GEMINI_DEFAULT_BASE = "https://generativelanguage.googleapis.com/v1beta/openai/"
 GROQ_DEFAULT_BASE = "https://api.groq.com/openai/v1"
 CEREBRAS_DEFAULT_BASE = "https://api.cerebras.ai/v1"
+CUSTOM_DEFAULT_BASE = ""
 
 
 @dataclass(frozen=True, slots=True)
@@ -244,6 +245,21 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
             "thinking",
             "native_anthropic",
             "local",
+        ),
+    ),
+    "custom": ProviderDescriptor(
+        provider_id="custom",
+        transport_type="openai_chat",
+        credential_env="CUSTOM_API_KEY",
+        credential_attr="custom_api_key",
+        default_base_url=CUSTOM_DEFAULT_BASE,
+        base_url_attr="custom_base_url",
+        proxy_attr="custom_proxy",
+        capabilities=(
+            "chat",
+            "streaming",
+            "tools",
+            "thinking",
         ),
     ),
 }

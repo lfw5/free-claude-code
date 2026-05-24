@@ -136,6 +136,12 @@ def _create_cerebras(config: ProviderConfig, _settings: Settings) -> BaseProvide
     return CerebrasProvider(config)
 
 
+def _create_custom(config: ProviderConfig, settings: Settings) -> BaseProvider:
+    from providers.custom import create_custom_provider
+
+    return create_custom_provider(config, transport=settings.custom_transport)
+
+
 PROVIDER_FACTORIES: dict[str, ProviderFactory] = {
     "nvidia_nim": _create_nvidia_nim,
     "open_router": _create_open_router,
@@ -154,6 +160,7 @@ PROVIDER_FACTORIES: dict[str, ProviderFactory] = {
     "lmstudio": _create_lmstudio,
     "llamacpp": _create_llamacpp,
     "ollama": _create_ollama,
+    "custom": _create_custom,
 }
 
 if set(PROVIDER_DESCRIPTORS) != set(SUPPORTED_PROVIDER_IDS) or set(

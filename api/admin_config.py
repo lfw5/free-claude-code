@@ -252,6 +252,38 @@ FIELDS: tuple[ConfigFieldSpec, ...] = (
         ),
     ),
     ConfigFieldSpec(
+        "CUSTOM_API_KEY",
+        "Custom API Key",
+        "providers",
+        "secret",
+        settings_attr="custom_api_key",
+        secret=True,
+        description=(
+            "API key for the custom provider endpoint. "
+            "Set CUSTOM_BASE_URL and CUSTOM_TRANSPORT below."
+        ),
+    ),
+    ConfigFieldSpec(
+        "CUSTOM_BASE_URL",
+        "Custom Base URL",
+        "providers",
+        settings_attr="custom_base_url",
+        description="Full base URL for the custom provider (e.g. https://api.example.com/v1).",
+    ),
+    ConfigFieldSpec(
+        "CUSTOM_TRANSPORT",
+        "Custom Transport",
+        "providers",
+        "select",
+        settings_attr="custom_transport",
+        default="openai_chat",
+        options=("openai_chat", "anthropic_messages"),
+        description=(
+            "API format used by the custom endpoint. OpenAI-compatible (openai_chat) "
+            "or Anthropic Messages (anthropic_messages)."
+        ),
+    ),
+    ConfigFieldSpec(
         "LM_STUDIO_BASE_URL",
         "LM Studio Base URL",
         "providers",
@@ -404,6 +436,15 @@ FIELDS: tuple[ConfigFieldSpec, ...] = (
         "providers",
         "secret",
         settings_attr="cerebras_proxy",
+        secret=True,
+        advanced=True,
+    ),
+    ConfigFieldSpec(
+        "CUSTOM_PROXY",
+        "Custom Proxy",
+        "providers",
+        "secret",
+        settings_attr="custom_proxy",
         secret=True,
         advanced=True,
     ),
